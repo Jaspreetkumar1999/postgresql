@@ -9,8 +9,8 @@ const UserService = require('./services/UserService');
 module.exports = (config) => {
   const log = config.log();
 
-  const todoService = new TodoService();
-  const userService = new UserService();
+  // const todoService = new TodoService();
+  // const userService = new UserService();
 
   // Add a request logging middleware in development mode
   if (app.get('env') === 'development') {
@@ -20,7 +20,7 @@ module.exports = (config) => {
     });
   }
   
-  app.use('/', routes({todoService, userService}));
+  // app.use('/', routes({todoService, userService}));
   
   // eslint-disable-next-line no-unused-vars
   app.use((error, req, res, next) => {
