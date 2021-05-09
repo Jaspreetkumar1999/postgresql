@@ -23,7 +23,7 @@ async createUser({firstName , lastName, email, password}){
 
 async getUser(){
    try{
-    const user = await this.models.User.findOne({where : {"firstName": "fifthUser"}});
+    const user = await this.models.User.findOne({where : {"firstName": "hill"}});
     return user ;
    }
   catch(err){
@@ -59,6 +59,15 @@ async getAllUsers(){
   }
   catch(err){
      return err;
+  }
+}
+async followUser(){
+  try{
+    const currentUser = await this.getUser();
+    
+
+  }catch(err){
+
   }
 }
 

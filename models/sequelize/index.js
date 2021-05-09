@@ -34,5 +34,90 @@ module.exports = (sequelize)=>{
      }
     }
     });
+
+    const contactInfo = sequelize.define('contactInfo',{
+         id : {
+     type : DataTypes.UUID,
+     defaultValue : DataTypes.UUIDV4,
+     primaryKey : true
+    
+    },
+    phone : {
+        type : DataTypes.STRING,
+        allowNull : false
+    }
+    },{
+        freezeTableName : true,
+        timestamps : true
+    });
+
+    const Tweet = sequelize.define('Tweet', {
+    id : {
+     type : DataTypes.UUID,
+     defaultValue : DataTypes.UUIDV4,
+     primaryKey : true
+     },
+    title:{
+         type : DataTypes.STRING,
+         allowNull : false
+    },
+    description : {
+        type : DataTypes.STRING,
+         allowNull : false
+    }
+    });
+
+    const Actor = sequelize.define('Actor', {
+    id : {
+     type : DataTypes.UUID,
+     defaultValue : DataTypes.UUIDV4,
+     primaryKey : true
+     },
+    name:{
+         type : DataTypes.STRING,
+         allowNull : false
+    }
+ 
+    });
+   const Movie = sequelize.define('Movie', {
+    id : {
+     type : DataTypes.UUID,
+     defaultValue : DataTypes.UUIDV4,
+     primaryKey : true
+     },
+      name:{
+         type : DataTypes.STRING,
+         allowNull : false
+    }
+   });
+
+// One-to-one
+
+User.hasOne(contactInfo, {
+    foriegnKey : {
+        type : DataTypes.UUID,
+        allowNull : false
+    }
+});
+contactInfo.belongsTo(User);
+
+User.hasMany(Tweet, {
+    foriegnKey : {
+        type : DataTypes.UUID,
+        allowNull : false
+    }
+});
+Tweet.belongsTo(User);
+User.belongsToMany(User,  {
+    foriegnKey : "UserId",
+    as : 'User',
+    through : 'Follow'
+});
+User.belongsToMany(User,{
+       as : 'Followed',
+    foriegnKey : "FollowedId",
+    through : 'Follow'
+});
+
     sequelize.sync({alter : true});
 }
