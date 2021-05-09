@@ -10,8 +10,8 @@ module.exports = (params) => {
     res.send('Home Page');
   });
 
-  router.use('/todo', todosRoute(params.todoService));
-  router.use('/user', usersRoute(params.userService));
+  // router.use('/todo', todosRoute(params.todoService));
+  router.use('/user', usersRoute(params));
 
   return router;
 };

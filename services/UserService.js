@@ -6,8 +6,60 @@ constructor(sequelize){
    this.client = sequelize;
    this.models = sequelize.models;
 }
+async createUser({firstName , lastName, email, password}){
+    try{
+      const user = await this.models.User.create({
+        firstName,
+        lastName,
+        email,
+        password
+      });
+      return user;
+
+    }catch(err){
+      return err;
+    }
+}
+
 async getUser(){
-  return 'UserService: Getting a User from Database';
+   try{
+    const user = await this.models.User.findOne({where : {"firstName": "fifthUser"}});
+    return user ;
+   }
+  catch(err){
+    return err;
+  }
+}
+
+async deleteUser(){
+  try{
+     const user = await this.models.User.destroy({where : {firstName : "hi"}});
+     return "user Deleted"
+  }catch(err){
+    return err;
+  }
+}
+
+async updateUser(){
+  try{
+     await this.models.User.update({lastName : "hello12"},{where : {firstName : "hi"}});
+     return "User updated."
+  }
+  catch(err){
+    return err
+  }
+}
+
+async getAllUsers(){
+  try{
+       const userList = await this.models.User.findAll({
+         attributes : ["firstName", "lastName"]
+       });
+       return userList;
+  }
+  catch(err){
+     return err;
+  }
 }
 
 }

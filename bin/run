@@ -7,21 +7,23 @@ const config = require('../config')[process.env.NODE_ENV || 'development'];
 const log = config.log();
 const App = require('../app');
 const sequelize = new Sequelize(config.postgres.options);
-async function connectToPostgres(){
-return await sequelize.authenticate().then(() =>{
+ function connectToPostgres(){
+  sequelize.authenticate().then(() =>{
+
      log.info("Connection Build");
    }).catch((err)=>{
      log.error("Unable to connect", err);
    });
 
-  
+  return sequelize;
 }
+let client = connectToPostgres();
 
-connectToPostgres().then(data => {
-config.postgres.client = data;
-const app = App(config);
+config.postgres.client = client;
+const app =  App(config);
+
 const port = process.env.PORT || 3000;
-// app.set("port", port)
+
 const server = http.createServer(app);
 
 
@@ -32,6 +34,5 @@ server.on('listening', () => {
     `Hi there! I'm listening on port ${server.address().port} in ${app.get('env')} mode.`,
   );
 });
-})
-// console.log("config.postgres.client",config.postgres.client)
+
 
